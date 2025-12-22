@@ -13,18 +13,37 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model User {
+  id             Int      @id @default(autoincrement())
+  username       String   @unique
+  passwordHashed String
+  createdAt      DateTime @default(now())
+  folders        Folder[]
+}
+
+model Folder {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  files     File[]
+}
+
+model File {
+  id        Int      @id @default(autoincrement())
+  name      String
+  size      Float
+  mimeType  String
+  createdAt DateTime @default(now())
+  url       String   @unique
+  parent    Folder   @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  Int
 }

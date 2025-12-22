@@ -3,23 +3,19 @@
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
 
-module.exports = function configurePassport(passport, pool) {
-
+module.exports = function configurePassport(passport, prisma) {
   passport.use(
     new LocalStrategy(async (username, password, done) => {
       try {
-        const { rows } = await pool.query(
-          "SELECT * FROM users WHERE username = $1",
-          [username]
-        );
-
-        const user = rows[0];
+        const user = await prisma.user.findUnique({
+          where: { username }
+        });
 
         if (!user) {
           return done(null, false, { message: "Incorrect username" });
         }
 
-        const match = await bcrypt.compare(password, user.password);
+        const match = await bcrypt.compare(password, user.passwordHashed); // passwordHashed is the password field name in the db
         if (!match) {
           return done(null, false, { message: "Incorrect password" });
         }
@@ -37,11 +33,10 @@ module.exports = function configurePassport(passport, pool) {
 
   passport.deserializeUser(async (id, done) => {
     try {
-      const { rows } = await pool.query(
-        "SELECT * FROM users WHERE id = $1",
-        [id]
-      );
-      done(null, rows[0]);
+      const user = await prisma.user.findUnique({
+        where: { id }
+      });
+      done(null, user);
     } catch (err) {
       done(err);
     }
