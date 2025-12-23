@@ -1,13 +1,35 @@
-<!-- index.ejs -->
 <html>
   <head>
     <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/index.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Homepage</title>
   </head>
   <body>
-    <div>
-      <%= title %>
+    <%- include("partials/header.ejs") %>
+
+    <div class="mainContainer">
+      <% if (!currentUser) { %>
+        <section class="hero">
+          <h1>
+            Your files.<br />
+            <span class="accent">Anywhere.</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            MyDrive is a simple, secure place to store your files, organize them
+            into folders, and access them whenever you need — from anywhere.
+          </p>
+
+          <div class="hero-actions">
+            <a href="/signup" class="btn btn-primary">Get started</a>
+            <a href="/login" class="btn btn-outline">Login</a>
+          </div>
+
+          <div class="hero-glow"></div>
+        </section>
+      <% } %>
     </div>
   </body>
 </html>

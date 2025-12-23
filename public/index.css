@@ -1,0 +1,99 @@
+.mainContainer {
+  flex: 1;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hero section */
+.hero {
+  max-width: 700px;
+  text-align: center;
+
+  padding: 2rem;
+  position: relative;
+  z-index: 2;
+
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.hero .accent {
+  color: var(--accent-primary);
+}
+
+.hero-subtitle {
+  margin-top: 1rem;
+  font-size: 1.05rem;
+  color: var(--text-light-secondary);
+}
+
+/* Buttons */
+.hero-actions {
+  margin-top: 2rem;
+
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* Subtle animated glow */
+.hero-glow {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+
+  background: radial-gradient(
+    circle,
+    rgba(167, 144, 235, 0.25) 0%,
+    rgba(167, 144, 235, 0.05) 40%,
+    transparent 70%
+  );
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  filter: blur(60px);
+  animation: pulse 6s ease-in-out infinite;
+  z-index: 1;
+
+  pointer-events: none; /* <-- add this */
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+}

@@ -1,14 +1,27 @@
 // controllers/indexController.js
 
-const db = require("../db/queries");
 const { body, validationResult, matchedData } = require("express-validator");
 const CustomNotFoundError = require("../errors/CustomNotFoundError");
 
 const getIndex = async (req, res) => {
   // const messages = await db.getAllMessages();
   // console.log(messages)
-  res.render("index", { title: "Mini Messageboard"});
+  res.render("index");
 };
 
+const getLogin = async (req, res) => {
+  // const messages = await db.getAllMessages();
+  // console.log(messages)
+  res.render("login");
+};
 
-module.exports = { getIndex };
+const getSignup = async (req, res) => {
+  // const messages = await db.getAllMessages();
+  // console.log(messages)
+  res.render("signup");
+};
+
+module.exports = {  getIndex,
+                    getLogin,
+                    getSignup
+ };
