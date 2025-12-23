@@ -11,23 +11,51 @@
 
     <div class="mainContainer">
       <% if (!currentUser) { %>
+        <!-- Existing hero for unauthenticated users -->
         <section class="hero">
           <h1>
             Your files.<br />
             <span class="accent">Anywhere.</span>
           </h1>
-
           <p class="hero-subtitle">
             MyDrive is a simple, secure place to store your files, organize them
             into folders, and access them whenever you need — from anywhere.
           </p>
-
           <div class="hero-actions">
             <a href="/signup" class="btn btn-primary">Get started</a>
             <a href="/login" class="btn btn-outline">Login</a>
           </div>
-
           <div class="hero-glow"></div>
+        </section>
+      <% } else { %>
+        <!-- Dashboard for logged-in users -->
+        <section class="dashboard">
+          <div class="dashboard-header">
+            <h2>Welcome back, <%= currentUser.username %>!</h2>
+
+            <form class="new-folder-form" method="POST" action="/folders">
+              <% if (error) { %>
+                <div class="error"><%= error.msg %></div>
+              <% } %>
+              <input type="text" name="name" placeholder="New folder name" required />
+              <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+          </div>
+
+          <% if (folders && folders.length > 0) { %>
+            <div class="folders-grid">
+              <% folders.forEach(folder => { %>
+                <a href="/folders/<%= folder.id %>" class="folder-card">
+                  <div class="folder-icon">📁</div>
+                  <div class="folder-name"><%= folder.name %></div>
+                  <div class="folder-count">Files Count: <%= folder.files.length %></div>
+                  <div class="folder-date">Created: <%= folder.createdAt.toLocaleDateString() %></div>
+                </a>
+              <% }) %>
+            </div>
+          <% } else { %>
+            <p class="no-folders">You don't have any folders yet. Create one above!</p>
+          <% } %>
         </section>
       <% } %>
     </div>

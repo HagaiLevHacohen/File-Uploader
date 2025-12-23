@@ -6,9 +6,12 @@ const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { prisma } = require("./lib/prisma");
 const express = require("express");
 const path = require("node:path");
-const indexRouter = require("./routes/indexRouter");
 const passport = require("passport");
 const configurePassport = require("./config/passport");
+
+// Import Routers
+const indexRouter = require("./routes/indexRouter");
+const foldersRouter = require("./routes/foldersRouter");
 
 
 // app setup
@@ -57,6 +60,8 @@ app.use((req, res, next) => {
 
 // ------- Routers -------
 app.use("/", indexRouter);
+app.use("/folders", foldersRouter);
+
 
 
 

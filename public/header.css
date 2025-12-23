@@ -40,29 +40,3 @@
   font-size: 0.9rem;
   color: var(--text-light-tertiary);
 }
-
-/* Buttons (reuse-friendly) */
-.btn {
-  padding: 0.4rem 0.9rem;
-  border-radius: 6px;
-  font-size: 1.2rem;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.btn-primary {
-  background-color: var(--accent-primary);
-  color: #0f0f0f;
-}
-
-.btn-primary:hover {
-  background-color: var(--accent-secondary);
-}
-
-.btn-outline {
-  border: 1px solid var(--bg-dark-tertiary);
-  color: var(--text-light-primary);
-}
-
-.btn-outline:hover {
-  background-color: var(--bg-hover);
-}

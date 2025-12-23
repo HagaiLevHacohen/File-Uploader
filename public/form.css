@@ -72,3 +72,27 @@
 .form-footer a:hover {
   text-decoration: underline;
 }
+
+/* Error list container */
+.errors {
+  margin: 0.5rem 0 1rem 0;
+  padding: 0.75rem 1rem;
+  list-style: none;
+  border-radius: 8px;
+
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+
+  color: #ff6b6b;
+  font-size: 0.9rem;
+}
+
+/* Individual error items */
+.errors li {
+  margin-bottom: 0.35rem;
+}
+
+/* Optional: last item has no bottom margin */
+.errors li:last-child {
+  margin-bottom: 0;
+}

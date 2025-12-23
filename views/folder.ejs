@@ -1,0 +1,96 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/folder.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= folder.name %> · MyDrive</title>
+  </head>
+  <body>
+    <%- include("partials/header.ejs") %>
+
+    <div class="mainContainer">
+      <section class="folder-view">
+
+        <!-- Top bar -->
+        <div class="folder-top">
+          <div class="folder-title">
+            <a href="/" class="back-link">← Back to home</a>
+            <h1>📁 <%= folder.name %></h1>
+          </div>
+
+          <div class="folder-actions">
+            <form method="POST" action="/folders/<%= folder.id %>/rename" class="rename-form">
+              <input
+                type="text"
+                name="name"
+                value="<%= folder.name %>"
+                required
+              />
+              <button class="btn btn-outline" type="submit">Rename</button>
+            </form>
+
+            <form
+              method="POST"
+              action="/folders/<%= folder.id %>/delete"
+              onsubmit="return confirm('Are you sure? Deleting this folder will delete all files inside it.')"
+            >
+              <button class="btn btn-danger" type="submit">Delete folder</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Supported files info -->
+        <p class="supported-files">
+          Supported: PDF, DOCX, XLSX, XLS, JPEG, PNG, GIF, WEBP, TXT, CSV, ZIP
+          <span>(max 50MB)</span>
+        </p>
+
+        <!-- Files -->
+        <% if (files.length > 0) { %>
+          <div class="files-grid">
+            <% files.forEach(file => { %>
+              <a
+                href="/folders/<%= folder.id %>/files/<%= file.id %>"
+                class="file-card"
+              >
+                <div class="file-icon">📄</div>
+                <div class="file-name"><%= file.name %></div>
+                <div class="file-meta">
+                  <span><%= (file.size / 1024 / 1024).toFixed(2) %> MB</span>
+                  <span><%= file.createdAt.toLocaleDateString() %></span>
+                </div>
+              </a>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <p class="empty-folder">This folder is empty.</p>
+        <% } %>
+
+        <!-- Upload form -->
+        <form
+          class="upload-form"
+          method="POST"
+          action="/folders/<%= folder.id %>/upload"
+          enctype="multipart/form-data"
+        >
+          <% if (error) { %>
+            <div class="error"><%= error.msg %></div>
+          <% } %>
+
+          <label for="file-upload" class="file-dropzone">
+            <input id="file-upload" type="file" name="file" required />
+            <div class="file-dropzone-content">
+              <span class="file-icon">📤</span>
+              <p>Click or drag a file here to upload</p>
+              <small>Supported: PDF, DOCX, XLSX, XLS, JPEG, PNG, GIF, WEBP, TXT, CSV, ZIP (max 50MB)</small>
+            </div>
+          </label>
+
+          <button class="btn btn-primary" type="submit">Upload</button>
+        </form>
+
+      </section>
+    </div>
+  </body>
+</html>
