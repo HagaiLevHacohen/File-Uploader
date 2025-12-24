@@ -26,9 +26,6 @@
   color: var(--text-light-tertiary);
 }
 
-.back-link:hover {
-  text-decoration: underline;
-}
 
 /* Folder actions */
 .folder-actions {
@@ -80,10 +77,6 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.file-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-}
 
 .file-icon {
   font-size: 2rem;
@@ -190,9 +183,6 @@
   color: #ff6b6b;
 }
 
-.btn-danger:hover {
-  background-color: rgba(255, 80, 80, 0.25);
-}
 
 /* Animation */
 @keyframes fadeInUp {
@@ -204,4 +194,26 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+
+@media (min-width: 1280px) {
+  .btn-danger:hover {
+    background-color: rgba(255, 80, 80, 0.25);
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+
+  .file-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+}
+
+@media (min-width: 600px) and (max-width: 1280px) {
+}
+
+@media (max-width: 600px) {
 }

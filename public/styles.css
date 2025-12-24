@@ -70,9 +70,6 @@ fieldset {
   color: #0f0f0f;
 }
 
-.btn-primary:hover {
-  background-color: var(--accent-secondary);
-}
 
 .btn-outline {
   background-color: var(--bg-dark-primary);
@@ -82,4 +79,17 @@ fieldset {
 
 .btn-outline:hover {
   background-color: var(--bg-hover);
+}
+
+
+@media (min-width: 1280px) {
+.btn-primary:hover {
+  background-color: var(--accent-secondary);
+}
+}
+
+@media (min-width: 600px) and (max-width: 1280px) {
+}
+
+@media (max-width: 600px) {
 }

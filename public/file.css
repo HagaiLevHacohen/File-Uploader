@@ -21,9 +21,6 @@
   color: var(--text-light-tertiary);
 }
 
-.back-link:hover {
-  text-decoration: underline;
-}
 
 /* File info */
 .file-info p {
@@ -79,4 +76,16 @@
 
 .btn-danger:hover {
   background-color: rgba(255, 80, 80, 0.25);
+}
+
+@media (min-width: 1280px) {
+  .back-link:hover {
+    text-decoration: underline;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 1280px) {
+}
+
+@media (max-width: 600px) {
 }

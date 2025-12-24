@@ -69,9 +69,6 @@
   color: var(--accent-primary);
 }
 
-.form-footer a:hover {
-  text-decoration: underline;
-}
 
 /* Error list container */
 .errors {
@@ -95,4 +92,19 @@
 /* Optional: last item has no bottom margin */
 .errors li:last-child {
   margin-bottom: 0;
+}
+
+
+
+@media (min-width: 1280px) {
+  .form-footer a:hover {
+    text-decoration: underline;
+  }
+
+}
+
+@media (min-width: 600px) and (max-width: 1280px) {
+}
+
+@media (max-width: 600px) {
 }
