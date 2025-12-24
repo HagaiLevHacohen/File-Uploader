@@ -10,7 +10,7 @@ Live demo: https://file-uploader-oz24.onrender.com/
 
 - User authentication (session-based) and access control
 - Secure file upload with validation and size limits
-- Hierarchical folders with cascade deletion
+- Folders with cascade deletion
 - File download via Supabase
 - Rename files and folders
 - Responsive UI for desktop and mobile
@@ -36,7 +36,7 @@ Create a .env file in the project root with at least:
 
 - DATABASE_URL=<postgres://...>
 - SUPABASE_URL=<https://...>
-- SUPABASE_KEY=<service_role_or_anon_key>
+- SUPABASE_SERVICE_ROLE_KEY=<service_role_or_anon_key>
 - SESSION_SECRET=<secure_random_string>
 - NODE_ENV="development"
 
