@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <link rel="stylesheet" href="/styles.css">
@@ -21,12 +22,7 @@
 
           <div class="folder-actions">
             <form method="POST" action="/folders/<%= folder.id %>/rename" class="rename-form">
-              <input
-                type="text"
-                name="name"
-                value="<%= folder.name %>"
-                required
-              />
+              <input type="text" name="name" value="<%= folder.name %>" required />
               <button class="btn btn-outline" type="submit">Rename</button>
             </form>
 
@@ -39,12 +35,6 @@
             </form>
           </div>
         </div>
-
-        <!-- Supported files info -->
-        <p class="supported-files">
-          Supported: PDF, DOCX, XLSX, XLS, JPEG, PNG, GIF, WEBP, TXT, CSV, ZIP
-          <span>(max 50MB)</span>
-        </p>
 
         <!-- Files -->
         <% if (files.length > 0) { %>
@@ -78,19 +68,69 @@
             <div class="error"><%= error.msg %></div>
           <% } %>
 
-          <label for="file-upload" class="file-dropzone">
+          <div id="dropzone" class="file-dropzone">
             <input id="file-upload" type="file" name="file" required />
+
             <div class="file-dropzone-content">
               <span class="file-icon">📤</span>
-              <p>Click or drag a file here to upload</p>
-              <small>Supported: PDF, DOCX, XLSX, XLS, JPEG, PNG, GIF, WEBP, TXT, CSV, ZIP (max 50MB)</small>
+              <p id="dropzone-text">Click or drag a file here to upload</p>
+              <small class="supported-files">
+                Supported: PDF, DOCX, XLSX, XLS, JPEG, PNG, GIF, WEBP, TXT, CSV, ZIP
+                (max 50MB)
+              </small>
+              <small id="selected-file">No file selected</small>
             </div>
-          </label>
+          </div>
 
           <button class="btn btn-primary" type="submit">Upload</button>
         </form>
 
       </section>
     </div>
+
+    <!-- Drag & drop logic -->
+    <script>
+      const dropzone = document.getElementById("dropzone");
+      const fileInput = document.getElementById("file-upload");
+      const selectedFile = document.getElementById("selected-file");
+      const dropzoneText = document.getElementById("dropzone-text");
+
+      // Click opens file picker
+      dropzone.addEventListener("click", () => fileInput.click());
+
+      // Show selected file
+      fileInput.addEventListener("change", () => {
+        if (fileInput.files.length > 0) {
+          selectedFile.textContent = fileInput.files[0].name;
+          dropzoneText.textContent = "File ready to upload";
+        } else {
+          selectedFile.textContent = "No file selected";
+          dropzoneText.textContent = "Click or drag a file here to upload";
+        }
+      });
+
+      // Drag over
+      dropzone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropzone.classList.add("dragover");
+      });
+
+      // Drag leave
+      dropzone.addEventListener("dragleave", () => {
+        dropzone.classList.remove("dragover");
+      });
+
+      // Drop
+      dropzone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropzone.classList.remove("dragover");
+
+        if (e.dataTransfer.files.length > 0) {
+          fileInput.files = e.dataTransfer.files;
+          selectedFile.textContent = e.dataTransfer.files[0].name;
+          dropzoneText.textContent = "File ready to upload";
+        }
+      });
+    </script>
   </body>
 </html>
