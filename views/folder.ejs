@@ -90,22 +90,38 @@
 
     <!-- Drag & drop logic -->
     <script>
+      const MAX_SIZE = 50 * 1024 * 1024;
+
       const dropzone = document.getElementById("dropzone");
       const fileInput = document.getElementById("file-upload");
       const selectedFile = document.getElementById("selected-file");
       const dropzoneText = document.getElementById("dropzone-text");
 
+      function resetUI() {
+        fileInput.value = "";
+        selectedFile.textContent = "No file selected";
+        dropzoneText.textContent = "Click or drag a file here to upload";
+      }
+
+      function handleFile(file) {
+        if (file.size > MAX_SIZE) {
+          alert("File too large. Max 50MB.");
+          resetUI();
+          return false;
+        }
+
+        selectedFile.textContent = file.name;
+        dropzoneText.textContent = "File ready to upload";
+        return true;
+      }
+
       // Click opens file picker
       dropzone.addEventListener("click", () => fileInput.click());
 
-      // Show selected file
+      // File picker
       fileInput.addEventListener("change", () => {
         if (fileInput.files.length > 0) {
-          selectedFile.textContent = fileInput.files[0].name;
-          dropzoneText.textContent = "File ready to upload";
-        } else {
-          selectedFile.textContent = "No file selected";
-          dropzoneText.textContent = "Click or drag a file here to upload";
+          handleFile(fileInput.files[0]);
         }
       });
 
@@ -126,11 +142,13 @@
         dropzone.classList.remove("dragover");
 
         if (e.dataTransfer.files.length > 0) {
-          fileInput.files = e.dataTransfer.files;
-          selectedFile.textContent = e.dataTransfer.files[0].name;
-          dropzoneText.textContent = "File ready to upload";
+          const file = e.dataTransfer.files[0];
+          if (handleFile(file)) {
+            fileInput.files = e.dataTransfer.files;
+          }
         }
       });
     </script>
+
   </body>
 </html>
