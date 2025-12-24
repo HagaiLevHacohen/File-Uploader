@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/file.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= file.name %> · MyDrive</title>
+  </head>
+  <body>
+    <%- include("partials/header.ejs") %>
+
+    <div class="mainContainer">
+      <section class="file-view">
+
+        <!-- Back to folder -->
+        <div class="file-top">
+          <a href="/folders/<%= file.parentId %>" class="back-link">← Back to folder</a>
+          <h1>📄 <%= file.name %></h1>
+        </div>
+
+        <!-- File info -->
+        <div class="file-info">
+          <p><strong>Size:</strong> <%= (file.size / 1024 / 1024).toFixed(2) %> MB</p>
+          <p><strong>Type:</strong> <%= file.mimeType %></p>
+          <p><strong>Uploaded:</strong> <%= file.createdAt.toLocaleDateString() %></p>
+        </div>
+
+        <!-- Preview -->
+        <% if (file.mimeType.startsWith("image/")) { %>
+          <div class="file-preview">
+            <img src="<%= file.url %>" alt="<%= file.name %>" />
+          </div>
+        <% } else if (file.mimeType === "text/plain") { %>
+          <div class="file-preview">
+            <iframe 
+              src="<%= file.url %>" 
+              title="<%= file.name %>" 
+              style="background-color: #727272;"
+            ></iframe>
+          </div>
+        <% } else { %>
+          <p class="no-preview">No preview available for this file type.</p>
+        <% } %>
+
+        <!-- Actions -->
+        <div class="file-actions">
+          <a href="<%= file.url %>" class="btn btn-primary" download>Download</a>
+          <form
+            method="POST"
+            action="/folders/<%= file.parentId %>/files/<%= file.id %>/delete"
+            onsubmit="return confirm('Are you sure you want to delete this file?')"
+          >
+            <button class="btn btn-danger" type="submit">Delete</button>
+          </form>
+        </div>
+
+      </section>
+    </div>
+  </body>
+</html>

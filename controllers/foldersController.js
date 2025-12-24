@@ -80,18 +80,15 @@ const deleteFolder = async (req, res) => {
 };
 
 const renameFolder = async (req, res) => {
-    console.log("1");
     const errors = validationResult(req);
     const folder = await prisma.folder.findUnique({ where: { id: Number(req.params.folderId) }, include: {files:true}});
     if (!errors.isEmpty()) {
-        console.log("2");
         return res.render(`/folders/${req.params.folderId}`, {
         folder: folder,
         files: folder.files,
         error: errors.array()[0]
         });
     }
-    console.log("3");
   // Only use matchedData when validation PASSES
     const { name } = matchedData(req);
     console.log(name);
@@ -201,6 +198,11 @@ const uploadFile = [isAuth, isFolderOwner, upload.single("file"),
 ];
 
 
+// FILES ROUTES
+const getFile = async (req, res) => {
+    const file = await prisma.file.findUnique({ where: { id: Number(req.params.fileId) }, include: {parent: true}});
+    res.render("file", {file: file, error: null});
+};
 
 
 module.exports = {  isAuth,
@@ -211,5 +213,6 @@ module.exports = {  isAuth,
                     isFileOwner,
                     deleteFolder,
                     renameFolder,
-                    uploadFile
+                    uploadFile,
+                    getFile
                      };
