@@ -1,6 +1,8 @@
 // routes/foldersRouter.js
 const { Router } = require("express");
-const { isAuth, postFolders, validateFolder, getFolder, isFileOwner, isFolderOwner, deleteFolder, renameFolder, uploadFile, getFile} = require('../controllers/foldersController');
+const { isAuth, postFolders, validateFolder, getFolder, isFileOwner, isFolderOwner, deleteFolder, renameFolder, uploadFile, getFile,
+        deleteFile
+} = require('../controllers/foldersController');
 
 const foldersRouter = Router();
 
@@ -14,6 +16,8 @@ foldersRouter.post("/:folderId/upload", uploadFile);
 
 // Files
 foldersRouter.get("/:folderId/files/:fileId", [isAuth, isFolderOwner, isFileOwner, getFile]);
+foldersRouter.post("/:folderId/files/:fileId/delete", [isAuth, isFolderOwner, isFileOwner, deleteFile]);
+
 
 
 module.exports = foldersRouter;

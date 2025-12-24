@@ -45,7 +45,7 @@
 
         <!-- Actions -->
         <div class="file-actions">
-          <a href="<%= file.url %>" class="btn btn-primary" download>Download</a>
+          <a href="<%= file.url %>" class="btn btn-primary" download="<%= file.name %>">Download</a>
           <form
             method="POST"
             action="/folders/<%= file.parentId %>/files/<%= file.id %>/delete"

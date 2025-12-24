@@ -75,7 +75,7 @@ const getFolder = async (req, res) => {
 
 
 const deleteFolder = async (req, res) => {
-    const folder = await prisma.folder.delete({ where: { id: Number(req.params.folderId) }});
+    await prisma.folder.delete({ where: { id: Number(req.params.folderId) }});
     res.redirect("/");
 };
 
@@ -205,6 +205,33 @@ const getFile = async (req, res) => {
 };
 
 
+const deleteFile = async (req, res, next) => {
+  try {
+    const fileId = Number(req.params.fileId);
+    const folderId = Number(req.params.folderId);
+
+    // Find the file first
+    const file = await prisma.file.findUnique({ where: { id: fileId } });
+
+    // Delete file from Supabase bucket
+    const { error } = await supabase.storage
+      .from("fileUploader")
+      .remove([file.path]); // remove expects an array of paths
+
+    if (error) {
+      console.error("Supabase deletion error:", error);
+    }
+
+    // Delete file record from database
+    await prisma.file.delete({ where: { id: fileId } });
+
+    res.redirect(`/folders/${folderId}`);
+  } catch (err) {
+    next(err);
+  }
+};
+
+
 module.exports = {  isAuth,
                     postFolders,
                     validateFolder,
@@ -214,5 +241,6 @@ module.exports = {  isAuth,
                     deleteFolder,
                     renameFolder,
                     uploadFile,
-                    getFile
+                    getFile, 
+                    deleteFile
                      };
